@@ -19,6 +19,7 @@ linters:
   enable:
     - deadcode
     - depguard
+    - exhaustive
     - goconst
     - goimports
     - gosimple

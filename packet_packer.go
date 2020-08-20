@@ -60,6 +60,7 @@ func (p *packetContents) EncryptionLevel() protocol.EncryptionLevel {
 	if !p.header.IsLongHeader {
 		return protocol.Encryption1RTT
 	}
+	//nolint:exhaustive // Will never be called for Retry packets (and they don't have encrypted data).
 	switch p.header.Type {
 	case protocol.PacketTypeInitial:
 		return protocol.EncryptionInitial
@@ -455,6 +456,7 @@ func (p *packetPacker) maybeAppendCryptoPacket(buffer *packetBuffer, maxPacketSi
 	if hasRetransmission {
 		for {
 			var f wire.Frame
+			//nolint:exhaustive // 0-RTT packets can't contain any retransmission.s
 			switch encLevel {
 			case protocol.EncryptionInitial:
 				f = p.retransmissionQueue.GetInitialFrame(remainingLen)
